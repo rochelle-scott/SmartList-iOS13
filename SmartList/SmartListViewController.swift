@@ -1,16 +1,15 @@
 //
 //  ViewController.swift
-//  Todoey
+//  SmartList App
 //
-//  Created by Philipp Muellauer on 02/12/2019.
-//  Copyright © 2019 App Brewery. All rights reserved.
+//  Created by Rochelle Scott on 16/02/2021.
 //
 
 import UIKit
 
 class SmartListViewController: UITableViewController {
 
-    let itemArray = ["Buy gift","Send text","Cook dinner"]
+    var itemArray = ["Buy gift","Send text","Cook dinner"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,14 +52,24 @@ class SmartListViewController: UITableViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
+        var textField = UITextField()
+        
         let alert = UIAlertController(title: "Add New Task Item", message: "", preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+        let actionButton = UIAlertAction(title: "Add Item", style: .default) { (actionButton) in
             // What will happen once the user clicks the Add Item button on out UIALert.
-            print("Success!")
+            //print(textField.text) //prints text that user enters to the console.
+            
+            self.itemArray.append(textField.text!) //Adds what user wrote in the textfield.
+            self.tableView.reloadData() //reloads the table and shows the updated table on UI.
         }
         
-        alert.addAction(action)
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+        }
+        
+        alert.addAction(actionButton)
         
         present(alert, animated: true, completion: nil)
     }
