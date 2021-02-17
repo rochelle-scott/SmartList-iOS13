@@ -11,9 +11,15 @@ class SmartListViewController: UITableViewController {
 
     var itemArray = ["Buy gift","Send text","Cook dinner"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //this adds item to pList, therefore carrying out persistent local data storage.
+        if let items = defaults.array(forKey: "TodolistArray") as? [String] {
+            itemArray = items
+        }
     }
 
 // MARK - Tableview Datasource Methods
@@ -61,6 +67,9 @@ class SmartListViewController: UITableViewController {
             //print(textField.text) //prints text that user enters to the console.
             
             self.itemArray.append(textField.text!) //Adds what user wrote in the textfield.
+                        
+            self.defaults.setValue(self.itemArray, forKey: "TodoListArray")
+            
             self.tableView.reloadData() //reloads the table and shows the updated table on UI.
         }
         
